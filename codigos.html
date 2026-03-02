@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Meu Caderno de Código</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #000205;
+      color: #333;
+    }
+
+    header {
+      background: #4a90e2;
+      color: rgb(0, 0, 0);
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8em;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      background: rgb(4, 0, 0);
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h3 {
+      margin-top: 20px;
+      color: #4a90e2;
+    }
+
+    textarea,
+    input {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f9f9f9;
+      transition: border 0.3s;
+    }
+
+    textarea:focus,
+    input:focus {
+      border: 1px solid #4a90e2;
+      outline: none;
+      background: #fff;
+    }
+
+    button {
+      padding: 8px 15px;
+      margin-right: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    button.save {
+      background: #4a90e2;
+      color: white;
+    }
+
+    button.save:hover {
+      background: #357ab8;
+    }
+
+    button.clear {
+      background: #e74c3c;
+      color: white;
+    }
+
+    button.clear:hover {
+      background: #c0392b;
+    }
+
+    button.delete {
+      background: #ff9800;
+      color: white;
+      margin-left: 10px;
+    }
+
+    button.delete:hover {
+      background: #e67e22;
+    }
+
+    .saved {
+      background: #f4f8fb;
+      padding: 15px;
+      margin-top: 25px;
+      border-radius: 8px;
+      border: 1px solid #dce3eb;
+    }
+
+    .item {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .item span {
+      cursor: pointer;
+      flex-grow: 1;
+    }
+
+    .item span:hover {
+      text-decoration: underline;
+    }
+
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    #lista {
+      max-height: 200px;
+      /* altura máxima da área da lista */
+      overflow-y: auto;
+      /* adiciona barra de rolagem vertical */
+      padding-right: 5px;
+      /* espaço para não encostar na barra */
+    }
+  </style>
+</head>
+
+<body>
+  <header>📘 Meu Caderno de Código</header>
+  <main>
+    <h3>Título do Código:</h3>
+    <input id="titulo" placeholder="Ex: Conversor de Temperatura">
+
+    <h3>Código:</h3>
+    <textarea id="codigo" placeholder="Escreva seu código aqui..."></textarea>
+
+    <h3>Explicação:</h3>
+    <textarea id="explicacao" placeholder="Explique o que cada comando faz..."></textarea>
+
+    <button class="save" onclick="salvar()">💾 Salvar</button>
+    <button class="clear" onclick="limpar()">🗑️ Limpar Tudo</button>
+
+    <div class="saved">
+      <div class="saved">
+        <h3>Meus Códigos Salvos:</h3>
+        <div id="lista"></div> <!-- aqui terá a rolagem -->
+        <hr>
+        <h3>Visualização:</h3>
+        <pre id="mostrarCodigo"></pre>
+        <p id="mostrarExplicacao"></p>
+      </div>
+
+  </main>
+
+  <script>
+    let projetos = JSON.parse(localStorage.getItem("projetos")) || [];
+    let editando = null;
+
+    function salvar() {
+      let titulo = document.getElementById("titulo").value.trim();
+      let codigo = document.getElementById("codigo").value;
+      let explicacao = document.getElementById("explicacao").value;
+
+      if (!titulo) {
+        alert("⚠️ Dê um título ao seu código!");
+        return;
+      }
+
+      if (editando !== null) {
+        projetos[editando] = { titulo, codigo, explicacao };
+        editando = null;
+        alert("✏️ Código atualizado com sucesso!");
+      } else {
+        projetos.push({ titulo, codigo, explicacao });
+        alert("✅ Código salvo com sucesso!");
+      }
+
+      localStorage.setItem("projetos", JSON.stringify(projetos));
+      atualizarLista();
+      limparCampos();
+    }
+
+    function limpar() {
+      localStorage.clear();
+      projetos = [];
+      atualizarLista();
+      document.getElementById("mostrarCodigo").textContent = "";
+      document.getElementById("mostrarExplicacao").textContent = "";
+      alert("🗑️ Todos os códigos foram apagados!");
+    }
+
+    function atualizarLista() {
+      let lista = document.getElementById("lista");
+      lista.innerHTML = "";
+      projetos.forEach((p, i) => {
+        let div = document.createElement("div");
+        div.className = "item";
+
+        let span = document.createElement("span");
+        span.textContent = p.titulo;
+        span.onclick = () => mostrarProjeto(i);
+
+        let btnDelete = document.createElement("button");
+        btnDelete.className = "delete";
+        btnDelete.textContent = "Excluir";
+        btnDelete.onclick = () => excluirProjeto(i);
+
+        div.appendChild(span);
+        div.appendChild(btnDelete);
+        lista.appendChild(div);
+      });
+    }
+
+    function mostrarProjeto(i) {
+      document.getElementById("mostrarCodigo").textContent = projetos[i].codigo;
+      document.getElementById("mostrarExplicacao").textContent = projetos[i].explicacao;
+      document.getElementById("titulo").value = projetos[i].titulo;
+      document.getElementById("codigo").value = projetos[i].codigo;
+      document.getElementById("explicacao").value = projetos[i].explicacao;
+      editando = i;
+    }
+
+    function excluirProjeto(i) {
+      if (confirm("Tem certeza que deseja excluir este código?")) {
+        projetos.splice(i, 1);
+        localStorage.setItem("projetos", JSON.stringify(projetos));
+        atualizarLista();
+        document.getElementById("mostrarCodigo").textContent = "";
+        document.getElementById("mostrarExplicacao").textContent = "";
+        alert("❌ Código excluído!");
+      }
+    }
+
+    function limparCampos() {
+      document.getElementById("titulo").value = "";
+      document.getElementById("codigo").value = "";
+      document.getElementById("explicacao").value = "";
+    }
+
+    atualizarLista();
+  </script>
+</body>
+
+</html>
