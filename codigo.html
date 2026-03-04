@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title> Códigos - Python & JS</title>
+  <style>
+    body {
+      font-family: 'Fira Code', monospace;
+      background: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      padding: 2rem;
+      background: #1f1f1f;
+      border-bottom: 2px solid #4cafef;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #4cafef;
+    }
+    section {
+      padding: 2rem;
+      margin: 1rem auto;
+      max-width: 900px;
+      background: #1e1e1e;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    h2 {
+      color: #ff9800;
+      border-left: 5px solid #ff9800;
+      padding-left: 0.5rem;
+    }
+    p {
+      font-weight: bold;
+      margin-top: 1rem;
+      color: #ccc;
+    }
+    pre {
+      background: #000;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      color: #0f0;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #1f1f1f;
+      color: #aaa;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📘 Códigos Essenciais</h1>
+    <p>Python • JavaScript</p>
+  </header>
+
+  <section>
+    <h2>🐍 Python</h2>
+    <p>Exibir texto:</p>
+    <pre>print("Olá, Mundo!")</pre>
+
+    <p>Condicional:</p>
+    <pre>
+x = 10
+if x > 5:
+    print("Maior que 5")
+else:
+    print("Menor ou igual a 5")
+    </pre>
+
+    <p>Loop:</p>
+    <pre>
+for i in range(5):
+    print(i)
+    </pre>
+
+    <p>Função:</p>
+    <pre>
+def soma(a, b):
+    return a + b
+
+print(soma(3, 4))
+    </pre>
+
+    <p>Listas e dicionários:</p>
+    <pre>
+lista = ["maçã", "banana", "laranja"]
+print(lista[0])
+
+dicionario = {"nome": "Miguel", "idade": 20}
+print(dicionario["nome"])
+    </pre>
+
+    <p>Importar bibliotecas:</p>
+    <pre>
+import math
+print(math.sqrt(25))
+    </pre>
+  </section>
+
+  <section>
+    <h2>⚡ JavaScript</h2>
+    <p>Exibir mensagem:</p>
+    <pre>console.log("Olá, Mundo!");</pre>
+
+    <p>Variáveis e condicional:</p>
+    <pre>
+let idade = 20;
+if (idade >= 18) {
+  console.log("Maior de idade");
+} else {
+  console.log("Menor de idade");
+}
+    </pre>
+
+    <p>Função:</p>
+    <pre>
+function soma(a, b) {
+  return a + b;
+}
+console.log(soma(5, 7));
+    </pre>
+
+    <p>Arrays e loops:</p>
+    <pre>
+let frutas = ["maçã", "banana", "laranja"];
+for (let fruta of frutas) {
+  console.log(fruta);
+}
+    </pre>
+
+    <p>Eventos:</p>
+    <pre>
+document.addEventListener("click", function() {
+  console.log("Clique detectado!");
+});
+    </pre>
+
+    <p>Objetos:</p>
+    <pre>
+let pessoa = {
+  nome: "Miguel",
+  idade: 20
+};
+console.log(pessoa.nome);
+    </pre>
+  </section>
+
+  <footer>
+    <p>Feito para estudo</p>
+  </footer>
+</body>
+</html>
